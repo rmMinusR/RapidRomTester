@@ -25,11 +25,14 @@ namespace utils {
 	std::string strip_quotes(std::string s);
 	
 	//Extract a single argument
-	void rip_arg(std::string full, std::string& part0, std::string& part1, char delim = ' ');
+	void rip_split(std::string full, std::string& part0, std::string& part1, char delim = ' ');
 
 	//Make a string URL-safe
 	//Algorithm pulled from https://stackoverflow.com/a/4643526
 	std::string make_url_safe(std::string in);
+
+	//Trim extra characters
+	void trim_padding(std::string& s, char delim = ' ');
 
 
 	//Replaces system("pause")

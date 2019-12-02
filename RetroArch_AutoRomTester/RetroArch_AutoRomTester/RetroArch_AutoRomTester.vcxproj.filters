@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\retroarch">
-      <UniqueIdentifier>{10a4653d-c636-45da-9d12-77dd93fe6a72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\retroarch">
-      <UniqueIdentifier>{07aafa25-bfe3-4bf5-ac34-5fcedbcd1ce4}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -55,9 +49,6 @@
     </ClInclude>
     <ClInclude Include="wiki_gen.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="core_info_for_cpp.h">
-      <Filter>Header Files\retroarch</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

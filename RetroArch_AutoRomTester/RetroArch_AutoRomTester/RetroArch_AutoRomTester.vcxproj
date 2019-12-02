@@ -134,7 +134,6 @@
   <ItemGroup>
     <ClInclude Include="cores.h" />
     <ClInclude Include="const.h" />
-    <ClInclude Include="core_info_for_cpp.h" />
     <ClInclude Include="retro_call.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="wiki_gen.h" />

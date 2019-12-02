@@ -10,17 +10,20 @@
 
 using namespace std;
 
-std::string CORE_DIR = utils::trailingSlashIt(utils::trailingSlashIt(constants::RETROARCH_DIR) + "cores");
-std::string ROM_DIR  = utils::trailingSlashIt(utils::trailingSlashIt(constants::RETROARCH_DIR) + "downloads");
+std::string CORE_DIR = utils::trailingSlashIt(utils::trailingSlashIt(constants::RETROARCH_BASE_DIR) + "cores");
+std::string ROM_DIR  = utils::trailingSlashIt(utils::trailingSlashIt(constants::RETROARCH_BASE_DIR) + "downloads");
 
 int main(int argc, char** argv) {
+
+	std::string a = "    ab  c  ";
+	utils::trim_padding(a, ' ');
 
 	std::cout << "Rapid ROM Tester microshell v0.7 by Robert Christensen" << std::endl;
 	std::cout << "For use in the Champlain College Game History Teaching Collection" << std::endl;
 	
 	//Status variables
-	wiki::HALF_CONFIG_STATE last_selected_rom;
-	wiki::HALF_CONFIG_STATE last_selected_core;
+	wiki::file_pointer_t last_selected_rom;
+	wiki::file_pointer_t last_selected_core;
 	do {
 		{ //Output status info
 			std::cout << std::endl;
@@ -32,7 +35,7 @@ int main(int argc, char** argv) {
 		string user_input = utils::query_user_s(" > ");
 
 		string command, args;
-		utils::rip_arg(user_input, command, args);
+		utils::rip_split(user_input, command, args);
 		
 		//Process the command
 		if (command == "rom") { //Try to load a rom
@@ -80,7 +83,7 @@ int main(int argc, char** argv) {
 		}
 		else if (command == "wiki") { //Wiki page functions
 			std::string subcmd, subargs;
-			utils::rip_arg(args, subcmd, subargs);
+			utils::rip_split(args, subcmd, subargs);
 
 			if (subcmd == "add") {
 				wiki::wpg_add_core_config(last_selected_core, wiki::queryinfo_test_results());

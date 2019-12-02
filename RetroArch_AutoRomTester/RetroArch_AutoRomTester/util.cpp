@@ -85,7 +85,7 @@ namespace utils {
 		}
 	}
 
-	void rip_arg(std::string full, std::string& part0, std::string& part1, char delim) {
+	void rip_split(std::string full, std::string& part0, std::string& part1, char delim) {
 		if (full.find(delim) != std::string::npos) { //Contains delim
 			std::string o0 = full.substr(0, full.find(delim));
 			std::string o1 = full.substr(full.find(delim) + 1, full.length() - full.find(delim));
@@ -120,4 +120,18 @@ namespace utils {
 		return out;
 	}
 
+	void trim_padding(std::string& s, char delim) {
+		int i_start;
+		for (i_start = 0; s.c_str()[i_start] == delim && i_start < s.length(); i_start++);
+
+		int i_end;
+		for (i_end = s.length(); s.c_str()[i_end] == delim && i_end >= 0; i_end--);
+
+		std::cout << s << std::endl;
+		std::cout << i_start << std::endl;
+		std::cout << i_end << std::endl;
+
+		s = s.substr(i_start, i_end);
+		std::cout << s << std::endl;
+	}
 }

@@ -10,19 +10,19 @@
 //Functions in wiki_gen are NOT pure functions (i.e. stateless)
 namespace wiki {
 	
-	HALF_CONFIG_STATE rom;
-	std::vector<HALF_CONFIG_STATE> cores; //No need to make a struct to merge with test_results
-	std::vector<TEST_STATE> test_results; //No need to make a struct to merge with cores
+	file_pointer_t rom;
+	std::vector<file_pointer_t> cores; //No need to make a struct to merge with test_results
+	std::vector<test_state_t> test_results; //No need to make a struct to merge with cores
 
 	//Wiki PaGe: set rom and clear cores and test results
-	void wpg_set_rom(HALF_CONFIG_STATE rom) {
+	void wpg_set_rom(file_pointer_t rom) {
 		wiki::rom = rom;
 		cores.clear();
 		test_results.clear();
 	}
 	
 	//Wiki PaGe: register a core and its test results
-	void wpg_add_core_config(HALF_CONFIG_STATE core, TEST_STATE test_state) {
+	void wpg_add_core_config(file_pointer_t core, test_state_t test_state) {
 		wiki::cores.push_back(core);
 		wiki::test_results.push_back(test_state);
 	}
@@ -51,8 +51,8 @@ namespace wiki {
 		out << "{{include(Launching_RetroArch)}}" << std::endl;
 	}
 
-	HALF_CONFIG_STATE queryinfo_rom(std::string path) {
-		HALF_CONFIG_STATE out;
+	file_pointer_t queryinfo_rom(std::string path) {
+		file_pointer_t out;
 
 		out.path =  const_cast<char*>( path.c_str());
 		out.tName = const_cast<char*>( utils::split_filename_from_path(path).c_str() );
@@ -62,8 +62,8 @@ namespace wiki {
 		return out;
 	}
 
-	HALF_CONFIG_STATE queryinfo_core(std::string path) {
-		HALF_CONFIG_STATE out;
+	file_pointer_t queryinfo_core(std::string path) {
+		file_pointer_t out;
 
 		out.path = const_cast<char*>(path.c_str());
 		out.tName = const_cast<char*>(utils::split_filename_from_path(path).c_str());
@@ -73,8 +73,8 @@ namespace wiki {
 		return out;
 	}
 
-	TEST_STATE queryinfo_test_results() {
-		TEST_STATE out;
+	test_state_t queryinfo_test_results() {
+		test_state_t out;
 
 		out.status_loads = utils::query_user_b("Does it load? ", true);
 

@@ -1,22 +1,44 @@
 #include "cores.h"
+#include "util.h"
 
-namespace utils {
-	namespace cores {
+#include <fstream>
+#include <vector>
+#include <string>
 
-		const char* core_get_dll(int core) {
-			switch (core) {
+namespace extra_info {
 
-			//NES family
-			case BNES:		return "bnes_libretro.dll";
-			case EMUX_NES:	return "emux_nes_libretro.dll";
-			case FCEUMM:	return "fceumm_libretro.dll";
-			case MESEN:		return "mesen_libretro.dll";
-			case NESTOPIA:	return "nestopia_libretro.dll";
-			case QUICKNES:	return "quicknes_libretro.dll";
+	bool info_parse(file_extra_info_t& out, wiki::file_pointer_t file) {
+		std::vector<kv_pair_str_t> dict(0);
 
-			default: return "INVALID CORE";
-			}
+		std::ifstream fin(file.path);
+		if (!fin.good()) return false;
+
+		std::string line;
+		while(true) {
+			//Pull a line and check it
+			std::getline(fin, line);
+			if (line.c_str()[0] == EOF || line.length() <= 1) break;
+
+			//Rip-split it
+			std::string key, val;
+			utils::rip_split(line, key, val, '=');
+			utils::trim_padding(key, ' ');
+			utils::trim_padding(val, ' ');
+
+			//Convert to KV pair
+			kv_pair_str_t pair;
+			pair.k = key.c_str();
+			pair.v = val.c_str();
+
+			//Push into dict
+			dict.push_back(pair);
 		}
 
+		
 	}
+
+	std::string info_get_field(file_extra_info_t info, char* key) {
+		return "";
+	}
+
 }

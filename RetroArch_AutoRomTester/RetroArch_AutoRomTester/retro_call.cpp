@@ -57,7 +57,7 @@ namespace retro_call {
 
 		std::string args = utils::split_filename_from_path(constants::RETROARCH_EXE)+" -L " + core_path + " " + rom_path;
 
-		run_program(constants::RETROARCH_EXE, constants::RETROARCH_DIR, args);
+		run_program(constants::RETROARCH_EXE, constants::RETROARCH_BASE_DIR, args);
 
 		return EXIT_SUCCESS;
 	}
