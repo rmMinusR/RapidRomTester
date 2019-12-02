@@ -18,26 +18,19 @@ int main(int argc, char** argv) {
 	std::cout << "Rapid ROM Tester microshell v0.7 by Robert Christensen" << std::endl;
 	std::cout << "For use in the Champlain College Game History Teaching Collection" << std::endl;
 	
-	//State variables
+	//Status variables
 	wiki::HALF_CONFIG_STATE last_selected_rom;
 	wiki::HALF_CONFIG_STATE last_selected_core;
 	do {
-		/*
-		//Query the user for a command
-		std::cout << std::endl;
-		std::cout << "[" << utils::split_filename_from_path(last_selected_rom.path) << "] > ";
+		{ //Output status info
+			std::cout << std::endl;
+			string pNameRom  = utils::split_filename_from_path(last_selected_rom .path); if(pNameRom  == constants::empty_val) pNameRom  = "NONE"; else pNameRom  = "'"+pNameRom +"'";
+			string pNameCore = utils::split_filename_from_path(last_selected_core.path); if(pNameCore == constants::empty_val) pNameCore = "NONE"; else pNameCore = "'"+pNameCore+"'";
+			std::cout << "ROM: "  << pNameRom  << std::endl;
+			std::cout << "Core: " << pNameCore << std::endl;
+		}
+		string user_input = utils::query_user_s(" > ");
 
-		//Get the command
-		string user_input;
-		getline(std::cin, user_input);
-		*/
-		string user_input = utils::query_user_s("["+utils::split_filename_from_path(last_selected_rom.path)+"] > ");
-
-		//Parse into pieces
-		/*
-		string command = user_input.substr(                     0,                     user_input.find(' '));
-		string args =    user_input.substr(user_input.find(' ')+1, user_input.length()-user_input.find(' '));
-		*/
 		string command, args;
 		utils::rip_arg(user_input, command, args);
 		

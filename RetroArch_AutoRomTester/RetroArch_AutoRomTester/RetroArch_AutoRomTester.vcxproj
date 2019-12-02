@@ -124,7 +124,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Downloads\RetroArch-master\core_info.c" />
     <ClCompile Include="const.cpp" />
     <ClCompile Include="cores.cpp" />
     <ClCompile Include="main.cpp" />
@@ -133,7 +132,6 @@
     <ClCompile Include="wiki_gen.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Downloads\RetroArch-master\core_info.h" />
     <ClInclude Include="cores.h" />
     <ClInclude Include="const.h" />
     <ClInclude Include="core_info_for_cpp.h" />

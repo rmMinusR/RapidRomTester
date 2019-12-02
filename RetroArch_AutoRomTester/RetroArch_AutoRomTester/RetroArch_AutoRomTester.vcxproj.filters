@@ -39,9 +39,6 @@
     <ClCompile Include="const.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Downloads\RetroArch-master\core_info.c">
-      <Filter>Source Files\retroarch</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util.h">
@@ -58,9 +55,6 @@
     </ClInclude>
     <ClInclude Include="wiki_gen.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Downloads\RetroArch-master\core_info.h">
-      <Filter>Header Files\retroarch</Filter>
     </ClInclude>
     <ClInclude Include="core_info_for_cpp.h">
       <Filter>Header Files\retroarch</Filter>
