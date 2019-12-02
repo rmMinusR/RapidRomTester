@@ -22,12 +22,12 @@ int main(int argc, char** argv) {
 	do {
 		{ //Output status info
 			std::cout << std::endl;
-			string pNameRom  = utils::split_filename_from_path(last_selected_rom .path); if(pNameRom  == constants::empty_val) pNameRom  = "NONE"; else pNameRom  = "'"+pNameRom +"'";
-			string pNameCore = utils::split_filename_from_path(last_selected_core.path); if(pNameCore == constants::empty_val) pNameCore = "NONE"; else pNameCore = "'"+pNameCore+"'";
+			string pNameRom  = utils::split_filename_from_path(last_selected_rom .path); if(pNameRom  == constants::empty_val) pNameRom  = "not loaded"; else pNameRom  = "'"+pNameRom +"'";
+			string pNameCore = utils::split_filename_from_path(last_selected_core.path); if(pNameCore == constants::empty_val) pNameCore = "not loaded"; else pNameCore = "'"+pNameCore+"'";
 			std::cout << "ROM: "  << pNameRom  << std::endl;
 			std::cout << "Core: " << pNameCore << std::endl;
 		}
-		string user_input = utils::query_user_s(" > ");
+		string user_input = utils::query_user_s("> ");
 
 		string command, args;
 		utils::rip_split(user_input, command, args);
