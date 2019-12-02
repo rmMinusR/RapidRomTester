@@ -3,10 +3,11 @@
 #include <future> //for async
 #include <chrono> //for delay()
 
+//#include "const.h"
 #include "util.h"
 #include "retro_call.h"
 #include "wiki_gen.h"
-//#include "const.h"
+#include "cores.h"
 
 using namespace std;
 
@@ -15,8 +16,9 @@ std::string ROM_DIR  = utils::trailingSlashIt(utils::trailingSlashIt(constants::
 
 int main(int argc, char** argv) {
 
-	std::string a = "    ab  c  ";
-	utils::trim_padding(a, ' ');
+	extra_info::file_extra_info_t a;
+	wiki::file_pointer_t f; f.tName = "abc123.dll";
+	extra_info::info_lookup(a, f);
 
 	std::cout << "Rapid ROM Tester microshell v0.7 by Robert Christensen" << std::endl;
 	std::cout << "For use in the Champlain College Game History Teaching Collection" << std::endl;

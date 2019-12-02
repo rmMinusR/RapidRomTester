@@ -3,6 +3,7 @@
 #include "wiki_gen.h"
 
 #include <string>
+#include <vector>
 
 namespace extra_info {
 
@@ -12,14 +13,17 @@ namespace extra_info {
 	};
 
 	struct file_extra_info_t {
-		kv_pair_str_t* info_dict;
+		std::vector<kv_pair_str_t> info_dict;
 		wiki::file_pointer_t file;
 	};
 
-	bool info_parse(file_extra_info_t& out, wiki::file_pointer_t file, std::string info_search_dir = constants::RETROARCH_INFO_DIR);
+	bool info_parse(file_extra_info_t& out, std::string info_file_path);
 
-	std::string info_get_field(file_extra_info_t info, char* key);
+	bool info_lookup(file_extra_info_t& out, wiki::file_pointer_t file, std::string info_search_dir = constants::RETROARCH_INFO_DIR);
+	
+	std::string info_get_field(file_extra_info_t info, std::string key);
 
+	/*
 	namespace keys_core {
 		const char* display_name = "display_name";
 		const char* authors = "authors";
@@ -61,7 +65,6 @@ namespace extra_info {
 		firmware0_path = "disksys.rom"
 		firmware0_opt = "true"
 		notes = "(!) disksys.rom (md5): ca30b50f880eb660a320674ed365ef7a|Press Retropad R1 to switch disk side.|HD Packs go in %system%/HdPacks/%game_name%|Custom palette in %system%/MesenPalette.pal"
-		
-		*/
 	}
+	*/
 }
