@@ -66,5 +66,4 @@ namespace extra_info {
 		}
 		return constants::empty_val;
 	}
-
 }

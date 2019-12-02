@@ -3,16 +3,13 @@
 #include <future> //for async
 #include <chrono> //for delay()
 
-//#include "const.h"
+//#include "const.h" //Explodes for some reason
 #include "util.h"
 #include "retro_call.h"
 #include "wiki_gen.h"
 #include "cores.h"
 
 using namespace std;
-
-std::string CORE_DIR = utils::trailingSlashIt(utils::trailingSlashIt(constants::RETROARCH_BASE_DIR) + "cores");
-std::string ROM_DIR  = utils::trailingSlashIt(utils::trailingSlashIt(constants::RETROARCH_BASE_DIR) + "downloads");
 
 int main(int argc, char** argv) {
 
