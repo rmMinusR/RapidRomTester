@@ -8,7 +8,7 @@
 namespace extra_info {
 
 	bool info_parse(file_extra_info_t& out, std::string info_file_path) {
-		std::vector<kv_pair_str_t> dict(0);
+		std::vector<kv_pair_str_t> dict(0); dict.reserve(32);
 
 		std::ifstream fin(info_file_path);
 		if (!fin.good()) return false;
@@ -28,32 +28,24 @@ namespace extra_info {
 			//Ensure both a key and value are present
 			if (key.length() <= 0 || val.length() <= 0) continue;
 
-			//Convert to KV pair
-			kv_pair_str_t pair;
-			pair.k = key.c_str();
-			pair.v = val.c_str();
-
 			//Push into dict
-			dict.push_back(pair);
+			dict.push_back(kv_pair_str_t{ utils::strip_quotes(key), utils::strip_quotes(val) }); //Why does $pair disappear on the next line?
 		}
 
 		out.info_dict = dict;
 		return true;
 	}
 
-	bool info_lookup(file_extra_info_t& out, wiki::file_pointer_t file, std::string info_search_dir) {
-		std::string fname_target = file.tName.substr(0, file.tName.length() - constants::FEXT_CORE.length()) + constants::FEXT_INFO;
+	bool info_lookup(file_extra_info_t& out, wiki::file_pointer_t resource_file, std::string info_search_dir) {
+		std::string fname_target = resource_file.tName.substr(0, resource_file.tName.length() - constants::FEXT_CORE.length()) + constants::FEXT_INFO;
 
-#pragma message("WARNING MISSING FILE LISTING ALGORITHM IN CORES.CPP")
-		//TODO how to list all files in directory?
-		char** info_files;
-		int n_info_files;
-		for (int i = 0; i < n_info_files; i++) {
-			char* fname = info_files[i];
-			
-			if (fname == file.tName) {
+		std::vector<std::string> info_files = utils::dir_list(info_search_dir);
+		for (int i = 0; i < info_files.size(); i++) {
+			std::string fname = info_files[i];
 
-				char* fpath = const_cast<char*>((utils::trailingSlashIt(info_search_dir) + fname).c_str());
+			if (fname == utils::repl_fext(resource_file.tName, constants::FEXT_INFO)) {
+
+				std::string fpath = utils::trailingSlashIt(info_search_dir) + fname;
 				
 				//TODO find better way to do this using pointers
 				file_extra_info_t temp;

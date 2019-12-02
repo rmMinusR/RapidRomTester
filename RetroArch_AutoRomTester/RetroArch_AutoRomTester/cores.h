@@ -8,8 +8,7 @@
 namespace extra_info {
 
 	struct kv_pair_str_t {
-		const char* k;
-		const char* v;
+		std::string k, v;
 	};
 
 	struct file_extra_info_t {
@@ -23,7 +22,6 @@ namespace extra_info {
 	
 	std::string info_get_field(file_extra_info_t info, std::string key);
 
-	/*
 	namespace keys_core {
 		const char* display_name = "display_name";
 		const char* authors = "authors";
@@ -45,7 +43,7 @@ namespace extra_info {
 		const char* notes = "notes";
 
 		/*
-		SAMPLE: Mesen
+		SAMPLE: mesen_libretro.info
 		
 		display_name = "Nintendo - NES / Famicom (Mesen)"
 		authors = "M. Bibaud (aka Sour)"
@@ -65,6 +63,6 @@ namespace extra_info {
 		firmware0_path = "disksys.rom"
 		firmware0_opt = "true"
 		notes = "(!) disksys.rom (md5): ca30b50f880eb660a320674ed365ef7a|Press Retropad R1 to switch disk side.|HD Packs go in %system%/HdPacks/%game_name%|Custom palette in %system%/MesenPalette.pal"
+		*/
 	}
-	*/
 }

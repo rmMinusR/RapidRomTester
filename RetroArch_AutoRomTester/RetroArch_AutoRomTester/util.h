@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 
 namespace utils {
 
@@ -10,11 +11,18 @@ namespace utils {
 	std::string trailingSlashIt(std::string path, char delim = '\\');
 	
 	//Check if a file exists
-	bool is_file_valid(std::string path);
+	bool file_exists(std::string path);
 	
 	//Extract only the filename from a full filepath
 	std::string split_filename_from_path(std::string path, char delim = '\\');
 
+	//NOT CROSSPLATFORM - only works for windows
+	//Taken from https://stackoverflow.com/a/20847429
+	//List all files in a directory
+	std::vector<std::string> dir_list(std::string dirpath, std::string fext = ".*");
+
+	//REPLace File EXTension
+	std::string repl_fext(std::string file, std::string ext);
 
 	//String utils
 	

@@ -16,10 +16,6 @@ std::string ROM_DIR  = utils::trailingSlashIt(utils::trailingSlashIt(constants::
 
 int main(int argc, char** argv) {
 
-	extra_info::file_extra_info_t a;
-	wiki::file_pointer_t f; f.tName = "abc123.dll";
-	extra_info::info_lookup(a, f);
-
 	std::cout << "Rapid ROM Tester microshell v0.7 by Robert Christensen" << std::endl;
 	std::cout << "For use in the Champlain College Game History Teaching Collection" << std::endl;
 	
@@ -43,7 +39,7 @@ int main(int argc, char** argv) {
 		if (command == "rom") { //Try to load a rom
 			
 			args = utils::strip_quotes(args);
-			if (utils::is_file_valid(args)) {
+			if (utils::file_exists(args)) {
 				last_selected_rom = wiki::queryinfo_rom(args);
 				wiki::wpg_set_rom(last_selected_rom);
 				std::cout << "Loaded ROM '" << last_selected_rom.tName << "'" << std::endl;
@@ -55,9 +51,13 @@ int main(int argc, char** argv) {
 		else if (command == "core") { //Try to load a core and launch RetroArch
 
 			args = utils::strip_quotes(args);
-			if (utils::is_file_valid(args)) { //Make sure the core file exists
+			if (utils::file_exists(args)) { //Make sure the core file exists
 				last_selected_core = wiki::queryinfo_core(args);
 				std::cout << "Loaded core '" << last_selected_core.tName << "'" << std::endl;
+
+				extra_info::file_extra_info_t a;
+				std::cout << extra_info::info_lookup(a, last_selected_core) << utils::file_exists(last_selected_core.path) << std::endl;
+				std::cout << a.info_dict.size() << "" << extra_info::info_get_field(a, "systemname") << std::endl;
 			}
 			else {
 				std::cout << "File not found: '" << args << "'" << std::endl;

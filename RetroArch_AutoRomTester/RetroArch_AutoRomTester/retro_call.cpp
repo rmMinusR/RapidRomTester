@@ -65,9 +65,9 @@ namespace retro_call {
 	//Check to make sure the core path is valid
 	int fancy_path_check(std::string path) {
 
-		std::cout << path << (utils::is_file_valid(path) ? " [OK]" : " [NOT OK]") << std::endl;
+		std::cout << path << (utils::file_exists(path) ? " [OK]" : " [NOT OK]") << std::endl;
 
-		if (!utils::is_file_valid(path)) return EXIT_FAILURE;
+		if (!utils::file_exists(path)) return EXIT_FAILURE;
 
 		return EXIT_SUCCESS;
 	}

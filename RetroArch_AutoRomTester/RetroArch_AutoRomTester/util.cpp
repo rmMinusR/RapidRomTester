@@ -3,6 +3,9 @@
 #include <fstream>
 #include <conio.h>
 #include <string>
+#include <vector>
+#include <Windows.h>
+//#include <filesystem> //REQUIRES C++17
 
 namespace utils {
 
@@ -15,7 +18,7 @@ namespace utils {
 		}
 	}
 
-	bool is_file_valid(std::string path) {
+	bool file_exists(std::string path) {
 		std::ifstream f(path.c_str());
 		bool exists = f.good();
 		f.close();
@@ -128,5 +131,27 @@ namespace utils {
 		for (i_end = s.length()-1; s.c_str()[i_end] == delim && i_end >= 0; i_end--);
 
 		s = s.substr(i_start, i_end-i_start+1);
+	}
+
+	std::vector<std::string> dir_list(std::string dirpath, std::string fext) {
+		std::vector<std::string> names;
+		std::string search_path = dirpath + "/*"+fext;//"/*.*";
+		WIN32_FIND_DATA fd;
+		HANDLE hFind = ::FindFirstFile(search_path.c_str(), &fd);
+		if (hFind != INVALID_HANDLE_VALUE) {
+			do {
+				// read all (real) files in current folder
+				// , delete '!' read other 2 default folder . and ..
+				if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+					names.push_back(fd.cFileName);
+				}
+			} while (::FindNextFile(hFind, &fd));
+			::FindClose(hFind);
+		}
+		return names;
+	}
+
+	std::string repl_fext(std::string file, std::string ext) {
+		return file.substr(0, file.find_last_of('.')) + ext;
 	}
 }
