@@ -1,6 +1,6 @@
-# Rapid ROM tester
+# Rapid ROM Tester
 
-Rapid ROM tester is a project made for use in the Game History Teaching Collection at Champlain College. To sort through our large collection efficiently, and upload formatted data to the GHTC Pineapple Wiki documentation, this project was concieved.
+The Rapid ROM Tester project is intended for use in the Game History Teaching Collection at Champlain College. This project was concieved to efficiently sort through our large collection efficiently, and upload formatted data to the GHTC Pineapple Wiki documentation.
 
 This project is OPEN SOURCE under GPL v3. However, neither I nor my employers nor associates are responsible for damage this program may cause.
 
@@ -20,7 +20,7 @@ Must be using at least C++98
 
 Load a ROM using > rom {filepath}. Works with raw game dumps or ZIPs.
 
-Load a core (DLL) using > core {filepath}. Alternatively a folder may be used to iterate through each usable core--see > batch for details.
+Load a core (DLL) using > core {filepath}. Alternatively a folder may be used to iterate through each usable core--see > batch for details. If using a folder, it MUST end in a backslash, otherwise Rapid ROM Tester will think it's a file.
 
 To launch a single test environment, simply type > go. To launch multiple, use > batch, which will iterate through all loaded cores. Be aware that > batch will, for each: > go then > wiki add
 
