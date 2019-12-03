@@ -21,5 +21,6 @@ namespace extra_info {
 	bool info_lookup(file_extra_info_t& out, wiki::file_pointer_t file, std::string info_search_dir = constants::RETROARCH_INFO_DIR);
 	
 	std::string info_get_field(file_extra_info_t info, std::string key);
-
+	
+	std::vector<std::string> list_known_consoles(std::string info_search_dir = constants::RETROARCH_INFO_DIR);
 }

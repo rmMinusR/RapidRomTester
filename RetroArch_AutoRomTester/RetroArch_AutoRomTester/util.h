@@ -24,6 +24,8 @@ namespace utils {
 	//REPLace File EXTension
 	std::string repl_fext(std::string file, std::string ext);
 
+	
+	
 	//String utils
 	
 	//Add quotes to escape the following string&
@@ -42,10 +44,41 @@ namespace utils {
 	//Trim extra characters
 	void trim_padding(std::string& s, char delim = ' ');
 
+	//Print array
+	void vector_print(std::vector<std::string> x);
+	/*
+	template<typename ElementType> void vector_print(std::vector<ElementType> x) {
+		std::cout << "vec:{ ";
+		for (ElementType i : x) {
+			std::cout << i << " ";
+		}
+		std::cout << "}" << std::endl;
+	}
 
+	template<typename ElementType> void array_print(ElementType x[]) {
+		std::cout << "arr:{ ";
+		size_t remaining_memory = sizeof(x);
+		int i = 0;
+		while (remaining_memory > 0) {
+			std::cout << x[i] << " ";
+			remaining_memory -= sizeof(i);
+			i++;
+		}
+		std::cout << "}" << std::endl;
+	}
+	*/
+
+
+	
+	//Random stuff
+	
 	//Replaces system("pause")
 	void pause();
+
+	//Check to see if a vector contains an element
+	bool vector_contains(std::string element, std::vector<std::string> vec);
 	
+
 
 	//User query functions
 

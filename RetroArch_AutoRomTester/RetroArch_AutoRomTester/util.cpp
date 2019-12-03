@@ -154,4 +154,19 @@ namespace utils {
 	std::string repl_fext(std::string file, std::string ext) {
 		return file.substr(0, file.find_last_of('.')) + ext;
 	}
+
+	void vector_print(std::vector<std::string> x) {
+		std::cout << "{ ";
+		for (std::string i : x) {
+			std::cout << i << " ";
+		}
+		std::cout << "}";
+	}
+
+	bool vector_contains(std::string element, std::vector<std::string> vec) {
+		for (std::string i : vec) {
+			if (element == i) return true;
+		}
+		return false;
+	}
 }

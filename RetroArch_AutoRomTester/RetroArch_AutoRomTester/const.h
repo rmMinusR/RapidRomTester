@@ -18,6 +18,8 @@ namespace constants {
 	const std::string FEXT_CORE = ".dll";
 	const std::string FEXT_INFO = ".info";
 
+	const char FS_DELIM = '\\';
+
 	namespace dict_keys_cores {
 		const std::string display_name				= ("display_name"			);
 		const std::string authors					= ("authors"				);

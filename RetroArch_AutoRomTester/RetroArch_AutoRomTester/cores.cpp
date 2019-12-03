@@ -9,6 +9,7 @@ namespace extra_info {
 
 	bool info_parse(file_extra_info_t& out, std::string info_file_path) {
 		std::vector<kv_pair_str_t> dict(0); dict.reserve(32);
+		int n_entries = 0;
 
 		std::ifstream fin(info_file_path);
 		if (!fin.good()) return false;
@@ -17,7 +18,8 @@ namespace extra_info {
 		while(true) {
 			//Pull a line and check it
 			std::getline(fin, line);
-			if (line.c_str()[0] == EOF || line.length() <= 1) break;
+			if (line.c_str()[0] == EOF || fin.eof()) break;
+			if (line.c_str()[0] == '#' || line.length() <= 1) continue;
 
 			//Rip-split it
 			std::string key, val;
@@ -29,24 +31,31 @@ namespace extra_info {
 			if (key.length() <= 0 || val.length() <= 0) continue;
 
 			//Push into dict
-			dict.push_back(kv_pair_str_t{ utils::strip_quotes(key), utils::strip_quotes(val) }); //Why does $pair disappear on the next line?
+			dict.push_back(kv_pair_str_t{ utils::strip_quotes(key), utils::strip_quotes(val) });
+			n_entries++;
 		}
 
-		out.info_dict = dict;
-		return true;
+		if (n_entries > 0) {
+			out.info_dict = dict;
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	bool info_lookup(file_extra_info_t& out, wiki::file_pointer_t resource_file, std::string info_search_dir) {
-		std::string fname_target = resource_file.tName.substr(0, resource_file.tName.length() - constants::FEXT_CORE.length()) + constants::FEXT_INFO;
+		std::string fname_target = utils::repl_fext(resource_file.tName, constants::FEXT_INFO);
 
 		std::vector<std::string> info_files = utils::dir_list(info_search_dir);
 		for (int i = 0; i < info_files.size(); i++) {
 			std::string fname = info_files[i];
 
-			if (fname == utils::repl_fext(resource_file.tName, constants::FEXT_INFO)) {
-
+			if (fname == fname_target) {
 				std::string fpath = utils::trailingSlashIt(info_search_dir) + fname;
-				
+				out.file.path = fpath;
+				out.file.tName = fname;
+
 				//TODO find better way to do this using pointers
 				file_extra_info_t temp;
 				if (info_parse(temp, fpath)) {
@@ -69,5 +78,26 @@ namespace extra_info {
 			if (info.info_dict[i].k == key) return info.info_dict[i].v;
 		}
 		return constants::empty_val;
+	}
+
+	std::vector<std::string> list_known_consoles(std::string info_search_dir) {
+		std::vector<std::string> info_files = utils::dir_list(info_search_dir);
+		std::vector<std::string> all_known_consoles; all_known_consoles.reserve(32);
+		for (int i = 0; i < info_files.size(); i++) {
+			std::string fname = info_files[i];
+			std::string fpath = utils::trailingSlashIt(info_search_dir) + fname;
+
+			file_extra_info_t metadata;
+			std::cout << i << "/" << info_files.size() << std::endl;
+			if (info_parse(metadata, fpath)) {
+
+				std::string console = extra_info::info_get_field(metadata, constants::dict_keys_cores::systemid);
+				if (!utils::vector_contains(console, all_known_consoles)) all_known_consoles.push_back(console);
+
+			}
+
+		}
+
+		return all_known_consoles;
 	}
 }
