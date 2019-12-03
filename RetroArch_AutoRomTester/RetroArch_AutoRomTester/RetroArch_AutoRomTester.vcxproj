@@ -128,6 +128,7 @@
     <ClCompile Include="cores.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="retro_call.cpp" />
+    <ClCompile Include="user_command.cpp" />
     <ClCompile Include="util.cpp" />
     <ClCompile Include="wiki_gen.cpp" />
   </ItemGroup>
@@ -135,6 +136,7 @@
     <ClInclude Include="cores.h" />
     <ClInclude Include="const.h" />
     <ClInclude Include="retro_call.h" />
+    <ClInclude Include="user_command.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="wiki_gen.h" />
   </ItemGroup>

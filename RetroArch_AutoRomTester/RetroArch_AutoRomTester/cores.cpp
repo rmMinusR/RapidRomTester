@@ -49,11 +49,15 @@ namespace extra_info {
 				
 				//TODO find better way to do this using pointers
 				file_extra_info_t temp;
-				info_parse(temp, fpath);
-
-				out.info_dict = temp.info_dict;
+				if (info_parse(temp, fpath)) {
+					out.info_dict = temp.info_dict;
+					return true;
+				}
+				else {
+					std::cerr << "Couldn't read " << fpath << std::endl;
+					return false;
+				}
 				
-				return true;
 			}
 		}
 

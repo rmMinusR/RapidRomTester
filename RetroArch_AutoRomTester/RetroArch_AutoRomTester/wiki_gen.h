@@ -10,7 +10,7 @@ namespace wiki {
 		std::string pName  = constants::empty_val;  //The pretty name (Mesen)
 		std::string tName  = constants::empty_val;  //The technical name (mesen_libretro.dll)
 		std::string path   = constants::empty_val;  //The file path
-		std::string family = constants::empty_val;
+		std::string group  = constants::empty_val;  //Archive set or console
 	};
 
 	struct test_state_t {

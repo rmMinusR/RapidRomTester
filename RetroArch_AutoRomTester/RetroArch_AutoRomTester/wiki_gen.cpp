@@ -56,7 +56,7 @@ namespace wiki {
 
 		out.path =  const_cast<char*>( path.c_str());
 		out.tName = const_cast<char*>( utils::split_filename_from_path(path).c_str() );
-		out.family = utils::query_user_s("What library? ");
+		out.group = utils::query_user_s("What library? ");
 		out.pName = utils::query_user_s("Game name? ");
 
 		return out;
@@ -67,7 +67,7 @@ namespace wiki {
 
 		out.path = const_cast<char*>(path.c_str());
 		out.tName = const_cast<char*>(utils::split_filename_from_path(path).c_str());
-		out.family = utils::query_user_s("What console? ");
+		out.group = utils::query_user_s("What console? ");
 		out.pName = utils::query_user_s("Core name? "); //TODO make it read from the file
 
 		return out;
