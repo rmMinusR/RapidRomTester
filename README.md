@@ -9,12 +9,21 @@ This project is OPEN SOURCE under GPL v3. However, neither I nor my employers no
 ## Requisites
 
 Must have RetroArch installed, as well as any ROMs and cores
+
 Must point Rapid ROM tester to the RetroArch installation directory (const.h : RETROARCH_BASE_DIR)
+
+Must be using MSVS 2019 with Desktop Development for C++ and .NET packages
+
+Must be using at least C++98
 
 ## How to use
 
 Load a ROM using > rom {filepath}. Works with raw game dumps or ZIPs.
+
 Load a core (DLL) using > core {filepath}. Alternatively a folder may be used to iterate through each usable core--see > batch for details.
-To launch a single test environment, simply type > go. To launch multiple, use > batch. Be aware that > batch will, for each: > go then > wiki add
+
+To launch a single test environment, simply type > go. To launch multiple, use > batch, which will iterate through all loaded cores. Be aware that > batch will, for each: > go then > wiki add
+
 To input a test-result entry, use > wiki add
+
 To save all test-result entries, use > wiki out {outfile}
