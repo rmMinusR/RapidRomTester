@@ -70,7 +70,7 @@ namespace utils {
 
 
 	
-	//Random stuff
+	//Misc stuff
 	
 	//Replaces system("pause")
 	void pause();

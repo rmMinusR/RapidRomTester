@@ -1,13 +1,11 @@
 #include <iostream> //for console io
-//#include <future> //for async
-//#include <chrono> //for delay()
 
-//#include "const.h" //Explodes for some reason
+//#include <future> //for async - unused
+//#include <chrono> //for delay() - unused
+
 #include "util.h"
 #include "wiki_gen.h"
 #include "user_command.h"
-
-//using namespace std;
 
 int main(int argc, char** argv) {
 
@@ -27,6 +25,7 @@ int main(int argc, char** argv) {
 		}
 		std::string user_input = utils::query_user_s("> ");
 
+		//Split into a command an arguments
 		std::string command, args;
 		utils::rip_split(user_input, command, args);
 		
@@ -42,7 +41,7 @@ int main(int argc, char** argv) {
 			if (cores.size() >  1) { std::cout << "Too many cores loaded!" << std::endl; continue; }
 			user_command::do_try_launch(rom, cores[0]);
 		}
-		else if (command == "batch") {
+		else if (command == "batch") { //Start a batch test
 			user_command::do_try_batch(rom, cores);
 		}
 		else if (command == "wiki") { //Wiki page functions

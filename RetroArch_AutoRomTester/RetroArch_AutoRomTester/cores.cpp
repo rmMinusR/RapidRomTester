@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-namespace extra_info {
+namespace core_metadata {
 
 	bool info_parse(file_extra_info_t& out, std::string info_file_path) {
 		std::vector<kv_pair_str_t> dict(0); dict.reserve(32);
@@ -91,7 +91,7 @@ namespace extra_info {
 			std::cout << i << "/" << info_files.size() << std::endl;
 			if (info_parse(metadata, fpath)) {
 
-				std::string console = extra_info::info_get_field(metadata, constants::dict_keys_cores::systemid);
+				std::string console = core_metadata::info_get_field(metadata, constants::dict_keys_cores::systemid);
 				if (!utils::vector_contains(console, all_known_consoles)) all_known_consoles.push_back(console);
 
 			}

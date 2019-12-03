@@ -9,6 +9,7 @@
 namespace user_command {
 
 	//> rom *
+	//Attempt to load a ROM from a file
 	bool do_load_rom(wiki::file_pointer_t& rom, std::string arg_chunk_in) {
 		std::string arg_chunk = utils::strip_quotes(arg_chunk_in);
 		if (utils::file_exists(arg_chunk)) {
@@ -25,6 +26,7 @@ namespace user_command {
 	}
 
 	//> core * (file or folder)
+	//Attempt to load a core or set of cores from a file or folder
 	std::vector<wiki::file_pointer_t> do_load_core(std::string arg_chunk) {
 		std::vector<wiki::file_pointer_t> cores;
 		arg_chunk = utils::strip_quotes(arg_chunk);
@@ -39,11 +41,11 @@ namespace user_command {
 				temp.path = utils::trailingSlashIt(arg_chunk)+dll;
 				temp.tName = utils::split_filename_from_path(temp.path);
 
-				extra_info::file_extra_info_t metadata;
-				if (extra_info::info_lookup(metadata, temp)) {
+				core_metadata::file_extra_info_t metadata;
+				if (core_metadata::info_lookup(metadata, temp)) {
 					std::cout << "Detected metadata file: " << temp.tName << std::endl;
-					temp.pName = extra_info::info_get_field(metadata, constants::dict_keys_cores::corename);
-					temp.group = extra_info::info_get_field(metadata, constants::dict_keys_cores::systemid);
+					temp.pName = core_metadata::info_get_field(metadata, constants::dict_keys_cores::corename);
+					temp.group = core_metadata::info_get_field(metadata, constants::dict_keys_cores::systemid);
 					cores.push_back(temp);
 				}
 				else {
@@ -62,11 +64,11 @@ namespace user_command {
 				temp.path = arg_chunk;
 				temp.tName = utils::split_filename_from_path(temp.path);
 			
-				extra_info::file_extra_info_t metadata;
-				if (extra_info::info_lookup(metadata, temp)) {
+				core_metadata::file_extra_info_t metadata;
+				if (core_metadata::info_lookup(metadata, temp)) {
 					std::cout << "Detected metadata file!" << std::endl;
-					temp.pName = extra_info::info_get_field(metadata, constants::dict_keys_cores::corename);
-					temp.group = extra_info::info_get_field(metadata, constants::dict_keys_cores::systemid);
+					temp.pName = core_metadata::info_get_field(metadata, constants::dict_keys_cores::corename);
+					temp.group = core_metadata::info_get_field(metadata, constants::dict_keys_cores::systemid);
 					cores.push_back(temp);
 				}
 				else {
@@ -83,7 +85,8 @@ namespace user_command {
 		return cores;
 	}
 	
-	//> test
+	//> go
+	//Try to start an instance of RetroArch using the given config
 	bool do_try_launch(wiki::file_pointer_t rom, wiki::file_pointer_t core) {
 		if (rom.path == constants::empty_val) { //Make sure the rom is selected
 			std::cout << "Cannot launch without a ROM!" << std::endl;
@@ -102,13 +105,15 @@ namespace user_command {
 	}
 
 	//> batch
+	//Batch-processing mode - equivalent to looped "> load > go > wiki add"
 	bool do_try_batch(wiki::file_pointer_t rom, std::vector<wiki::file_pointer_t> cores) {
 		
 		for (wiki::file_pointer_t core : cores) {
-			extra_info::file_extra_info_t metadata;
-			extra_info::info_lookup(metadata, core);
+			std::cout << "Testing " << core.pName << std::endl;
+			core_metadata::file_extra_info_t metadata;
+			core_metadata::info_lookup(metadata, core);
 
-			if (extra_info::info_get_field(metadata, constants::dict_keys_cores::systemid) == rom.group) {
+			if (core_metadata::info_get_field(metadata, constants::dict_keys_cores::systemid) == rom.group) {
 				user_command::do_try_launch(rom, core);
 				user_command::wiki_do_add(rom, core);
 			}
@@ -119,6 +124,7 @@ namespace user_command {
 	}
 
 	//> wiki *
+	//Delegates based on sub-command
 	void wiki_generic(wiki::file_pointer_t rom, wiki::file_pointer_t core, std::string arg_chunk) {
 		std::string subcmd, subcmd_args;
 		utils::rip_split(arg_chunk, subcmd, subcmd_args);
@@ -135,11 +141,13 @@ namespace user_command {
 	}
 	
 	//> wiki add *
+	//Add test results
 	void wiki_do_add(wiki::file_pointer_t rom, wiki::file_pointer_t core) {
 		wiki::wpg_add_core_config(core, wiki::queryinfo_test_results());
 	}
 
 	//> wiki out
+	//Output the wikifile
 	void wiki_do_out(wiki::file_pointer_t rom, wiki::file_pointer_t core, std::string arg_chunk) {
 		if (arg_chunk.length() > 0) { //An argument was supplied
 
