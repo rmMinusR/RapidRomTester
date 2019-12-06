@@ -18,12 +18,14 @@ namespace constants {
 
 namespace constants {
 
-	const std::string RETROARCH_BASE_DIR = "C:\\Users\\gameshow\\AppData\\Roaming\\RetroArch\\";
+	const std::string RETROARCH_BASE_DIR = fs::trailingSlashIt("C:\\Users\\gameshow\\AppData\\Roaming\\RetroArch\\");
 	
 	//const std::string RETROARCH_BASE_DIR = "D:\\Programs\\RetroArch\\";
-	const std::string RETROARCH_EXE = fs::trailingSlashIt(RETROARCH_BASE_DIR) + "retroarch.exe";
-	const std::string RETROARCH_INFO_DIR = fs::trailingSlashIt(fs::trailingSlashIt(RETROARCH_BASE_DIR) + "info" );
-	const std::string RETROARCH_CORE_DIR = fs::trailingSlashIt(fs::trailingSlashIt(RETROARCH_BASE_DIR) + "cores");
+	const std::string RETROARCH_EXE      =                     RETROARCH_BASE_DIR + "retroarch.exe";
+	const std::string RETROARCH_INFO_DIR = fs::trailingSlashIt(RETROARCH_BASE_DIR + "info" );
+	const std::string RETROARCH_CORE_DIR = fs::trailingSlashIt(RETROARCH_BASE_DIR + "cores");
+
+	const std::string CUSTOM_METADATA_DIR = ".\\metadata\\";
 
 	namespace dict_keys_cores {
 		const std::string display_name				= ("display_name"			);

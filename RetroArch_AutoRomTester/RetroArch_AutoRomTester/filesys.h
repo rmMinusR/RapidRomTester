@@ -25,10 +25,9 @@ namespace fs {
 		std::vector<fs::kv_pair_str_t> info_dict;
 	};
 
-	//Represents a combined ROM/DLL plus any metadata known about it.
-	struct file_pointer_t {
-		basic_file_pointer_t file;
-		bool has_metadata;
+	//Represents a ROM/DLL plus any metadata known about it.
+	struct file_pointer_t : basic_file_pointer_t {
+		bool has_metadata = false;
 		metadata_t file_metadata;
 	};
 

@@ -52,24 +52,28 @@ namespace wiki {
 		out << "{{include(Launching_RetroArch)}}" << std::endl;
 	}
 
-	fs::basic_file_pointer_t queryinfo_rom(std::string path) {
-		fs::basic_file_pointer_t out;
+	fs::file_pointer_t queryinfo_rom(std::string path) {
+		fs::file_pointer_t out;
 
 		out.path =  const_cast<char*>( path.c_str());
 		out.tName = const_cast<char*>( fs::split_filename_from_path(path).c_str() );
 		out.group = utils::query_user_s("What console? ");
 		out.pName = utils::query_user_s("Game name? ");
 
+		out.has_metadata = false;
+
 		return out;
 	}
 
-	fs::basic_file_pointer_t queryinfo_core(std::string path) {
-		fs::basic_file_pointer_t out;
+	fs::file_pointer_t queryinfo_core(std::string path) {
+		fs::file_pointer_t out;
 
 		out.path = const_cast<char*>(path.c_str());
 		out.tName = const_cast<char*>(fs::split_filename_from_path(path).c_str());
 		out.group = utils::query_user_s("What console? ");
-		out.pName = utils::query_user_s("Core name? "); //TODO make it read from the file
+		out.pName = utils::query_user_s("Core name? ");
+
+		out.has_metadata = false;
 
 		return out;
 	}

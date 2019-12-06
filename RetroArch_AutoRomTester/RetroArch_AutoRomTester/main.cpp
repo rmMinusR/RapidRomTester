@@ -14,13 +14,13 @@ int main(int argc, char** argv) {
 	std::cout << "For use in the Champlain College Game History Teaching Collection" << std::endl;
 	
 	//Status variables
-	fs::basic_file_pointer_t rom;
-	std::vector<fs::basic_file_pointer_t> cores;
+	fs::file_pointer_t rom;
+	std::vector<fs::file_pointer_t> cores;
 	do {
 		{ //Output status info
 			std::cout << std::endl;
-			std::string pNameRom  = fs::split_filename_from_path(rom .path); if(pNameRom  == constants::empty_val) pNameRom  = "not loaded"; else pNameRom  = "'"+pNameRom +"'";
-			std::string pNameCore = "[" + std::to_string(cores.size()) + " loaded]";
+			std::string pNameRom  = rom.pName; if(pNameRom  == constants::empty_val) pNameRom  = "not loaded"; else pNameRom  = "'"+pNameRom +"'";
+			std::string pNameCore = (cores.size()==1)?cores[0].pName:"[" + std::to_string(cores.size()) + " loaded]";
 			std::cout << "ROM: "  << pNameRom  << std::endl;
 			std::cout << "Core: " << pNameCore << std::endl;
 		}

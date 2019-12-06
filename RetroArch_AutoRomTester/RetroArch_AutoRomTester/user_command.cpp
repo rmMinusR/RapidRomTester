@@ -27,8 +27,8 @@ namespace user_command {
 
 	//> core * (file or folder)
 	//Attempt to load a core or set of cores from a file or folder
-	std::vector<fs::basic_file_pointer_t> do_load_core(std::string arg_chunk) {
-		std::vector<fs::basic_file_pointer_t> cores;
+	std::vector<fs::file_pointer_t> do_load_core(std::string arg_chunk) {
+		std::vector<fs::file_pointer_t> cores;
 		arg_chunk = utils::strip_quotes(arg_chunk);
 
 		if (arg_chunk.at(arg_chunk.length() - 1) == constants::FS_DELIM) {
@@ -37,12 +37,18 @@ namespace user_command {
 			std::vector<std::string> dlls = fs::dir_list(arg_chunk, constants::FEXT_CORE);
 			for (std::string dll : dlls) {
 
-				fs::basic_file_pointer_t temp;
+				fs::file_pointer_t temp;
 				temp.path = fs::trailingSlashIt(arg_chunk)+dll;
 				temp.tName = fs::split_filename_from_path(temp.path);
 
 				fs::metadata_t metadata;
 				if (metadata::info_lookup(metadata, temp)) {
+					std::cout << "Detected metadata file: " << temp.tName << std::endl;
+					temp.pName = metadata::info_get_field(metadata, constants::dict_keys_cores::corename);
+					temp.group = metadata::info_get_field(metadata, constants::dict_keys_cores::systemid);
+					cores.push_back(temp);
+				}
+				else if (metadata::info_lookup(metadata, temp, constants::CUSTOM_METADATA_DIR)) {
 					std::cout << "Detected metadata file: " << temp.tName << std::endl;
 					temp.pName = metadata::info_get_field(metadata, constants::dict_keys_cores::corename);
 					temp.group = metadata::info_get_field(metadata, constants::dict_keys_cores::systemid);
@@ -60,7 +66,7 @@ namespace user_command {
 
 			if (fs::file_exists(arg_chunk)) { //Make sure the core file exists
 			
-				fs::basic_file_pointer_t temp;
+				fs::file_pointer_t temp;
 				temp.path = arg_chunk;
 				temp.tName = fs::split_filename_from_path(temp.path);
 			
@@ -106,9 +112,9 @@ namespace user_command {
 
 	//> batch
 	//Batch-processing mode - equivalent to looped "> load > go > wiki add"
-	bool do_try_batch(fs::basic_file_pointer_t rom, std::vector<fs::basic_file_pointer_t> cores) {
+	bool do_try_batch(fs::basic_file_pointer_t rom, std::vector<fs::file_pointer_t> cores) {
 		
-		for (fs::basic_file_pointer_t core : cores) {
+		for (fs::file_pointer_t core : cores) {
 			std::cout << "Testing " << core.pName << std::endl;
 			fs::metadata_t metadata;
 			metadata::info_lookup(metadata, core);
