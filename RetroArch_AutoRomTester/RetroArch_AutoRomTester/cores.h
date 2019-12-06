@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace core_metadata {
+namespace metadata {
 
 	//Attempt to parse a .info file into &out
 	bool info_parse(fs::metadata_t& out, std::string info_file_path);

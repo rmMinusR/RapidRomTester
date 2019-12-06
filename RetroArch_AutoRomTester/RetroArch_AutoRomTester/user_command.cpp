@@ -42,10 +42,10 @@ namespace user_command {
 				temp.tName = fs::split_filename_from_path(temp.path);
 
 				fs::metadata_t metadata;
-				if (core_metadata::info_lookup(metadata, temp)) {
+				if (metadata::info_lookup(metadata, temp)) {
 					std::cout << "Detected metadata file: " << temp.tName << std::endl;
-					temp.pName = core_metadata::info_get_field(metadata, constants::dict_keys_cores::corename);
-					temp.group = core_metadata::info_get_field(metadata, constants::dict_keys_cores::systemid);
+					temp.pName = metadata::info_get_field(metadata, constants::dict_keys_cores::corename);
+					temp.group = metadata::info_get_field(metadata, constants::dict_keys_cores::systemid);
 					cores.push_back(temp);
 				}
 				else {
@@ -65,10 +65,10 @@ namespace user_command {
 				temp.tName = fs::split_filename_from_path(temp.path);
 			
 				fs::metadata_t metadata;
-				if (core_metadata::info_lookup(metadata, temp)) {
+				if (metadata::info_lookup(metadata, temp)) {
 					std::cout << "Detected metadata file!" << std::endl;
-					temp.pName = core_metadata::info_get_field(metadata, constants::dict_keys_cores::corename);
-					temp.group = core_metadata::info_get_field(metadata, constants::dict_keys_cores::systemid);
+					temp.pName = metadata::info_get_field(metadata, constants::dict_keys_cores::corename);
+					temp.group = metadata::info_get_field(metadata, constants::dict_keys_cores::systemid);
 					cores.push_back(temp);
 				}
 				else {
@@ -111,9 +111,9 @@ namespace user_command {
 		for (fs::basic_file_pointer_t core : cores) {
 			std::cout << "Testing " << core.pName << std::endl;
 			fs::metadata_t metadata;
-			core_metadata::info_lookup(metadata, core);
+			metadata::info_lookup(metadata, core);
 
-			if (core_metadata::info_get_field(metadata, constants::dict_keys_cores::systemid) == rom.group) {
+			if (metadata::info_get_field(metadata, constants::dict_keys_cores::systemid) == rom.group) {
 				user_command::do_try_launch(rom, core);
 				user_command::wiki_do_add(rom, core);
 			}

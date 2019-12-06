@@ -38,7 +38,7 @@ namespace retro_call {
 			&si,
 			&pi
 		);
-		
+
 		WaitForSingleObject(pi.hProcess, INFINITY); //Doesn't work?
 
 		CloseHandle(pi.hThread);
