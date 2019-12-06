@@ -3,6 +3,7 @@
 //#include <future> //for async - unused
 //#include <chrono> //for delay() - unused
 
+#include "filesys.h"
 #include "util.h"
 #include "wiki_gen.h"
 #include "user_command.h"
@@ -13,12 +14,12 @@ int main(int argc, char** argv) {
 	std::cout << "For use in the Champlain College Game History Teaching Collection" << std::endl;
 	
 	//Status variables
-	wiki::file_pointer_t rom;
-	std::vector<wiki::file_pointer_t> cores;
+	fs::basic_file_pointer_t rom;
+	std::vector<fs::basic_file_pointer_t> cores;
 	do {
 		{ //Output status info
 			std::cout << std::endl;
-			std::string pNameRom  = utils::split_filename_from_path(rom .path); if(pNameRom  == constants::empty_val) pNameRom  = "not loaded"; else pNameRom  = "'"+pNameRom +"'";
+			std::string pNameRom  = fs::split_filename_from_path(rom .path); if(pNameRom  == constants::empty_val) pNameRom  = "not loaded"; else pNameRom  = "'"+pNameRom +"'";
 			std::string pNameCore = "[" + std::to_string(cores.size()) + " loaded]";
 			std::cout << "ROM: "  << pNameRom  << std::endl;
 			std::cout << "Core: " << pNameCore << std::endl;

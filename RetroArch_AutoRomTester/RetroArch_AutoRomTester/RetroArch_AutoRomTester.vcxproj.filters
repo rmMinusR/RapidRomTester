@@ -36,6 +36,9 @@
     <ClCompile Include="user_command.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="filesys.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="user_command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="filesys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

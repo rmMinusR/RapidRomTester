@@ -2,30 +2,17 @@
 
 #include <iostream>
 #include <vector>
+#include <Windows.h>
 
-namespace utils {
-
-	//File functions
+namespace fs {
 
 	//Add a trailing delimiter
 	std::string trailingSlashIt(std::string path, char delim = '\\');
-	
-	//Check if a file exists
-	bool file_exists(std::string path);
-	
-	//Extract only the filename from a full filepath
-	std::string split_filename_from_path(std::string path, char delim = '\\');
 
-	//NOT CROSSPLATFORM - only works for windows
-	//Taken from https://stackoverflow.com/a/20847429
-	//List all files in a directory
-	std::vector<std::string> dir_list(std::string dirpath, std::string fext = ".*");
+}
 
-	//REPLace File EXTension
-	std::string repl_fext(std::string file, std::string ext);
+namespace utils {
 
-	
-	
 	//String utils
 	
 	//Add quotes to escape the following string&
@@ -46,27 +33,6 @@ namespace utils {
 
 	//Print array
 	void vector_print(std::vector<std::string> x);
-	/*
-	template<typename ElementType> void vector_print(std::vector<ElementType> x) {
-		std::cout << "vec:{ ";
-		for (ElementType i : x) {
-			std::cout << i << " ";
-		}
-		std::cout << "}" << std::endl;
-	}
-
-	template<typename ElementType> void array_print(ElementType x[]) {
-		std::cout << "arr:{ ";
-		size_t remaining_memory = sizeof(x);
-		int i = 0;
-		while (remaining_memory > 0) {
-			std::cout << x[i] << " ";
-			remaining_memory -= sizeof(i);
-			i++;
-		}
-		std::cout << "}" << std::endl;
-	}
-	*/
 
 
 	

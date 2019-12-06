@@ -55,7 +55,7 @@ namespace retro_call {
 		utils::quote_escape(core_path);
 		utils::quote_escape(rom_path);
 
-		std::string args = utils::split_filename_from_path(constants::RETROARCH_EXE)+" -L " + core_path + " " + rom_path;
+		std::string args = fs::split_filename_from_path(constants::RETROARCH_EXE)+" -L " + core_path + " " + rom_path;
 
 		run_program(constants::RETROARCH_EXE, constants::RETROARCH_BASE_DIR, args);
 
@@ -65,9 +65,9 @@ namespace retro_call {
 	//Check to make sure the core path is valid
 	int fancy_path_check(std::string path) {
 
-		std::cout << path << (utils::file_exists(path) ? " [OK]" : " [NOT OK]") << std::endl;
+		std::cout << path << (fs::file_exists(path) ? " [OK]" : " [NOT OK]") << std::endl;
 
-		if (!utils::file_exists(path)) return EXIT_FAILURE;
+		if (!fs::file_exists(path)) return EXIT_FAILURE;
 
 		return EXIT_SUCCESS;
 	}

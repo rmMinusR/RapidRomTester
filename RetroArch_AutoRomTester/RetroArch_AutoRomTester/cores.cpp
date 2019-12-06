@@ -1,5 +1,6 @@
 #include "cores.h"
 #include "util.h"
+#include "filesys.h"
 
 #include <fstream>
 #include <vector>
@@ -7,8 +8,8 @@
 
 namespace core_metadata {
 
-	bool info_parse(file_extra_info_t& out, std::string info_file_path) {
-		std::vector<kv_pair_str_t> dict(0); dict.reserve(32);
+	bool info_parse(fs::metadata_t& out, std::string info_file_path) {
+		std::vector<fs::kv_pair_str_t> dict(0); dict.reserve(32);
 		int n_entries = 0;
 
 		std::ifstream fin(info_file_path);
@@ -31,7 +32,7 @@ namespace core_metadata {
 			if (key.length() <= 0 || val.length() <= 0) continue;
 
 			//Push into dict
-			dict.push_back(kv_pair_str_t{ utils::strip_quotes(key), utils::strip_quotes(val) });
+			dict.push_back(fs::kv_pair_str_t{ utils::strip_quotes(key), utils::strip_quotes(val) });
 			n_entries++;
 		}
 
@@ -44,20 +45,20 @@ namespace core_metadata {
 		}
 	}
 
-	bool info_lookup(file_extra_info_t& out, wiki::file_pointer_t resource_file, std::string info_search_dir) {
-		std::string fname_target = utils::repl_fext(resource_file.tName, constants::FEXT_INFO);
+	bool info_lookup(fs::metadata_t& out, fs::basic_file_pointer_t resource_file, std::string info_search_dir) {
+		std::string fname_target = fs::repl_fext(resource_file.tName, constants::FEXT_INFO);
 
-		std::vector<std::string> info_files = utils::dir_list(info_search_dir);
+		std::vector<std::string> info_files = fs::dir_list(info_search_dir);
 		for (int i = 0; i < info_files.size(); i++) {
 			std::string fname = info_files[i];
 
 			if (fname == fname_target) {
-				std::string fpath = utils::trailingSlashIt(info_search_dir) + fname;
-				out.file.path = fpath;
-				out.file.tName = fname;
+				std::string fpath = fs::trailingSlashIt(info_search_dir) + fname;
+				//out.file.path = fpath;
+				//out.file.tName = fname;
 
 				//TODO find better way to do this using pointers
-				file_extra_info_t temp;
+				fs::metadata_t temp;
 				if (info_parse(temp, fpath)) {
 					out.info_dict = temp.info_dict;
 					return true;
@@ -73,7 +74,7 @@ namespace core_metadata {
 		return false;
 	}
 
-	std::string info_get_field(file_extra_info_t info, std::string key) {
+	std::string info_get_field(fs::metadata_t info, std::string key) {
 		for (int i = 0; i < info.info_dict.size(); i++) {
 			if (info.info_dict[i].k == key) return info.info_dict[i].v;
 		}
@@ -81,13 +82,13 @@ namespace core_metadata {
 	}
 
 	std::vector<std::string> list_known_consoles(std::string info_search_dir) {
-		std::vector<std::string> info_files = utils::dir_list(info_search_dir);
+		std::vector<std::string> info_files = fs::dir_list(info_search_dir);
 		std::vector<std::string> all_known_consoles; all_known_consoles.reserve(32);
 		for (int i = 0; i < info_files.size(); i++) {
 			std::string fname = info_files[i];
-			std::string fpath = utils::trailingSlashIt(info_search_dir) + fname;
+			std::string fpath = fs::trailingSlashIt(info_search_dir) + fname;
 
-			file_extra_info_t metadata;
+			fs::metadata_t metadata;
 			std::cout << i << "/" << info_files.size() << std::endl;
 			if (info_parse(metadata, fpath)) {
 

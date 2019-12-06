@@ -1,6 +1,7 @@
 #include "wiki_gen.h"
 
 #include "util.h"
+#include "filesys.h"
 
 #include <iostream>
 #include <fstream>
@@ -10,19 +11,19 @@
 //Functions in wiki_gen are NOT pure functions (i.e. stateless)
 namespace wiki {
 	
-	file_pointer_t rom;
-	std::vector<file_pointer_t> cores; //No need to make a struct to merge with test_results
+	fs::basic_file_pointer_t rom;
+	std::vector<fs::basic_file_pointer_t> cores; //No need to make a struct to merge with test_results
 	std::vector<test_state_t> test_results; //No need to make a struct to merge with cores
 
 	//Wiki PaGe: set rom and clear cores and test results
-	void wpg_set_rom(file_pointer_t rom) {
+	void wpg_set_rom(fs::basic_file_pointer_t rom) {
 		wiki::rom = rom;
 		cores.clear();
 		test_results.clear();
 	}
 	
 	//Wiki PaGe: register a core and its test results
-	void wpg_add_core_config(file_pointer_t core, test_state_t test_state) {
+	void wpg_add_core_config(fs::basic_file_pointer_t core, test_state_t test_state) {
 		wiki::cores.push_back(core);
 		wiki::test_results.push_back(test_state);
 	}
@@ -51,22 +52,22 @@ namespace wiki {
 		out << "{{include(Launching_RetroArch)}}" << std::endl;
 	}
 
-	file_pointer_t queryinfo_rom(std::string path) {
-		file_pointer_t out;
+	fs::basic_file_pointer_t queryinfo_rom(std::string path) {
+		fs::basic_file_pointer_t out;
 
 		out.path =  const_cast<char*>( path.c_str());
-		out.tName = const_cast<char*>( utils::split_filename_from_path(path).c_str() );
+		out.tName = const_cast<char*>( fs::split_filename_from_path(path).c_str() );
 		out.group = utils::query_user_s("What console? ");
 		out.pName = utils::query_user_s("Game name? ");
 
 		return out;
 	}
 
-	file_pointer_t queryinfo_core(std::string path) {
-		file_pointer_t out;
+	fs::basic_file_pointer_t queryinfo_core(std::string path) {
+		fs::basic_file_pointer_t out;
 
 		out.path = const_cast<char*>(path.c_str());
-		out.tName = const_cast<char*>(utils::split_filename_from_path(path).c_str());
+		out.tName = const_cast<char*>(fs::split_filename_from_path(path).c_str());
 		out.group = utils::query_user_s("What console? ");
 		out.pName = utils::query_user_s("Core name? "); //TODO make it read from the file
 

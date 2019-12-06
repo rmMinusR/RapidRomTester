@@ -10,9 +10,9 @@ namespace user_command {
 
 	//> rom *
 	//Attempt to load a ROM from a file
-	bool do_load_rom(wiki::file_pointer_t& rom, std::string arg_chunk_in) {
+	bool do_load_rom(fs::basic_file_pointer_t& rom, std::string arg_chunk_in) {
 		std::string arg_chunk = utils::strip_quotes(arg_chunk_in);
-		if (utils::file_exists(arg_chunk)) {
+		if (fs::file_exists(arg_chunk)) {
 			//Buggy, disabled
 			//utils::vector_print(extra_info::list_known_consoles());
 			rom = wiki::queryinfo_rom(arg_chunk);
@@ -27,21 +27,21 @@ namespace user_command {
 
 	//> core * (file or folder)
 	//Attempt to load a core or set of cores from a file or folder
-	std::vector<wiki::file_pointer_t> do_load_core(std::string arg_chunk) {
-		std::vector<wiki::file_pointer_t> cores;
+	std::vector<fs::basic_file_pointer_t> do_load_core(std::string arg_chunk) {
+		std::vector<fs::basic_file_pointer_t> cores;
 		arg_chunk = utils::strip_quotes(arg_chunk);
 
 		if (arg_chunk.at(arg_chunk.length() - 1) == constants::FS_DELIM) {
 			//It's a folder, batch process
 
-			std::vector<std::string> dlls = utils::dir_list(arg_chunk, constants::FEXT_CORE);
+			std::vector<std::string> dlls = fs::dir_list(arg_chunk, constants::FEXT_CORE);
 			for (std::string dll : dlls) {
 
-				wiki::file_pointer_t temp;
-				temp.path = utils::trailingSlashIt(arg_chunk)+dll;
-				temp.tName = utils::split_filename_from_path(temp.path);
+				fs::basic_file_pointer_t temp;
+				temp.path = fs::trailingSlashIt(arg_chunk)+dll;
+				temp.tName = fs::split_filename_from_path(temp.path);
 
-				core_metadata::file_extra_info_t metadata;
+				fs::metadata_t metadata;
 				if (core_metadata::info_lookup(metadata, temp)) {
 					std::cout << "Detected metadata file: " << temp.tName << std::endl;
 					temp.pName = core_metadata::info_get_field(metadata, constants::dict_keys_cores::corename);
@@ -58,13 +58,13 @@ namespace user_command {
 		else {
 			//It's a file, single process
 
-			if (utils::file_exists(arg_chunk)) { //Make sure the core file exists
+			if (fs::file_exists(arg_chunk)) { //Make sure the core file exists
 			
-				wiki::file_pointer_t temp;
+				fs::basic_file_pointer_t temp;
 				temp.path = arg_chunk;
-				temp.tName = utils::split_filename_from_path(temp.path);
+				temp.tName = fs::split_filename_from_path(temp.path);
 			
-				core_metadata::file_extra_info_t metadata;
+				fs::metadata_t metadata;
 				if (core_metadata::info_lookup(metadata, temp)) {
 					std::cout << "Detected metadata file!" << std::endl;
 					temp.pName = core_metadata::info_get_field(metadata, constants::dict_keys_cores::corename);
@@ -87,7 +87,7 @@ namespace user_command {
 	
 	//> go
 	//Try to start an instance of RetroArch using the given config
-	bool do_try_launch(wiki::file_pointer_t rom, wiki::file_pointer_t core) {
+	bool do_try_launch(fs::basic_file_pointer_t rom, fs::basic_file_pointer_t core) {
 		if (rom.path == constants::empty_val) { //Make sure the rom is selected
 			std::cout << "Cannot launch without a ROM!" << std::endl;
 			return false;
@@ -106,11 +106,11 @@ namespace user_command {
 
 	//> batch
 	//Batch-processing mode - equivalent to looped "> load > go > wiki add"
-	bool do_try_batch(wiki::file_pointer_t rom, std::vector<wiki::file_pointer_t> cores) {
+	bool do_try_batch(fs::basic_file_pointer_t rom, std::vector<fs::basic_file_pointer_t> cores) {
 		
-		for (wiki::file_pointer_t core : cores) {
+		for (fs::basic_file_pointer_t core : cores) {
 			std::cout << "Testing " << core.pName << std::endl;
-			core_metadata::file_extra_info_t metadata;
+			fs::metadata_t metadata;
 			core_metadata::info_lookup(metadata, core);
 
 			if (core_metadata::info_get_field(metadata, constants::dict_keys_cores::systemid) == rom.group) {
@@ -125,7 +125,7 @@ namespace user_command {
 
 	//> wiki *
 	//Delegates based on sub-command
-	void wiki_generic(wiki::file_pointer_t rom, wiki::file_pointer_t core, std::string arg_chunk) {
+	void wiki_generic(fs::basic_file_pointer_t rom, fs::basic_file_pointer_t core, std::string arg_chunk) {
 		std::string subcmd, subcmd_args;
 		utils::rip_split(arg_chunk, subcmd, subcmd_args);
 
@@ -142,13 +142,13 @@ namespace user_command {
 	
 	//> wiki add *
 	//Add test results
-	void wiki_do_add(wiki::file_pointer_t rom, wiki::file_pointer_t core) {
+	void wiki_do_add(fs::basic_file_pointer_t rom, fs::basic_file_pointer_t core) {
 		wiki::wpg_add_core_config(core, wiki::queryinfo_test_results());
 	}
 
 	//> wiki out
 	//Output the wikifile
-	void wiki_do_out(wiki::file_pointer_t rom, wiki::file_pointer_t core, std::string arg_chunk) {
+	void wiki_do_out(fs::basic_file_pointer_t rom, fs::basic_file_pointer_t core, std::string arg_chunk) {
 		if (arg_chunk.length() > 0) { //An argument was supplied
 
 			if (arg_chunk == "preview") {

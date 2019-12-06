@@ -126,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="const.cpp" />
     <ClCompile Include="cores.cpp" />
+    <ClCompile Include="filesys.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="retro_call.cpp" />
     <ClCompile Include="user_command.cpp" />
@@ -135,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="cores.h" />
     <ClInclude Include="const.h" />
+    <ClInclude Include="filesys.h" />
     <ClInclude Include="retro_call.h" />
     <ClInclude Include="user_command.h" />
     <ClInclude Include="util.h" />

@@ -1,13 +1,11 @@
 #include "util.h"
 #include <iostream>
-#include <fstream>
 #include <conio.h>
 #include <string>
 #include <vector>
-#include <Windows.h>
 //#include <filesystem> //REQUIRES C++17
 
-namespace utils {
+namespace fs {
 
 	std::string trailingSlashIt(std::string path, char delim) {
 		if (!path.empty() && path.back() != delim) {
@@ -18,12 +16,9 @@ namespace utils {
 		}
 	}
 
-	bool file_exists(std::string path) {
-		std::ifstream f(path.c_str());
-		bool exists = f.good();
-		f.close();
-		return exists;
-	}
+}
+
+namespace utils {
 
 	void quote_escape(std::string& s) { s = "\"" + s + "\""; };
 
@@ -31,14 +26,6 @@ namespace utils {
 	void pause() {
 		std::cout << "Press any key to continue..." << std::endl;
 		char c = _getch();
-	}
-
-	std::string split_filename_from_path(std::string path, char delim) {
-		size_t last_delim = path.find_last_of(delim);
-
-		if (last_delim == std::string::npos) return path;
-		
-		return path.substr(last_delim+1, path.length()-last_delim-1);
 	}
 
 	std::string strip_quotes(std::string s) {
@@ -128,31 +115,9 @@ namespace utils {
 		for (i_start = 0; s.c_str()[i_start] == delim && i_start < s.length(); i_start++);
 
 		size_t i_end;
-		for (i_end = s.length()-1; s.c_str()[i_end] == delim && i_end >= 0; i_end--);
+		for (i_end = s.length() - 1; s.c_str()[i_end] == delim && i_end >= 0; i_end--);
 
-		s = s.substr(i_start, i_end-i_start+1);
-	}
-
-	std::vector<std::string> dir_list(std::string dirpath, std::string fext) {
-		std::vector<std::string> names;
-		std::string search_path = dirpath + "/*"+fext;//"/*.*";
-		WIN32_FIND_DATA fd;
-		HANDLE hFind = ::FindFirstFile(search_path.c_str(), &fd);
-		if (hFind != INVALID_HANDLE_VALUE) {
-			do {
-				// read all (real) files in current folder
-				// , delete '!' read other 2 default folder . and ..
-				if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-					names.push_back(fd.cFileName);
-				}
-			} while (::FindNextFile(hFind, &fd));
-			::FindClose(hFind);
-		}
-		return names;
-	}
-
-	std::string repl_fext(std::string file, std::string ext) {
-		return file.substr(0, file.find_last_of('.')) + ext;
+		s = s.substr(i_start, i_end - i_start + 1);
 	}
 
 	void vector_print(std::vector<std::string> x) {
