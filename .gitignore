@@ -5,7 +5,12 @@
 
 # CUSTOM IGNORES
 thumbnails/
+
+# Python compiled
 *.pyc
+
+# Pycharm
+.idea/
 
 # User-specific files
 *.suo
