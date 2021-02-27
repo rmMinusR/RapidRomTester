@@ -3,7 +3,7 @@ import numpy
 
 header = "|_. Title|_. Year released|_. Filename|_. Status|"
 line_fmt = "|{title}|{year}|{path}|{status}|"
-test_fmt = lambda b: "Working" if b else "Not working"
+test_fmt = lambda b: "{background:#8F8}. Working" if b else "{background:#F88}. Not working"
 
 def did_tests_pass(test) -> bool:
 	global test_fmt
@@ -28,4 +28,4 @@ def format_all(*multicore_results) -> str:
 	for k in rom_list:
 		tests_by_rom[k] = [core_result[k] for core_result in multicore_results]
 
-	return header + '\n'.join([format_one(rom, tests_by_rom[rom]) for rom in rom_list])
+	return header + '\n' + '\n'.join([format_one(rom, tests_by_rom[rom]) for rom in rom_list])
