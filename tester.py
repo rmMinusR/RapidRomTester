@@ -33,7 +33,7 @@ def ensureAlive():
 
 def retroarch_launch(rom_path, core_path, retroarch_path):
     """Launch a RetroArch process and return the pywinauto wrapper"""
-    process = Popen([retroarch_path, "--appendconfig", config.config_overrides_path, "-L", core_path, rom_path])
+    process = Popen([retroarch_path, "--log-file", "./retroarch-log.txt", "--appendconfig", config.config_overrides_path, "-L", core_path, rom_path])
     return (process, Application().connect(process=process.pid))
 
 
@@ -51,8 +51,8 @@ def send_input(key):
 def test_pair(rom_path, core_path, retroarch_path, thumbnail_dir:str=None, start_btns:tuple=("{ENTER}",), startup_time=2):
     """Run all tests for the given rom/core pair"""
 
-    rom_name  : str = ".".join(rom_path .split("\\")[-1].split(".")[:-1])
-    core_name : str = ".".join(core_path.split("\\")[-1].split(".")[:-1])
+    rom_name  : str = ".".join(rom_path .split("/")[-1].split(".")[:-1])
+    core_name : str = ".".join(core_path.split("/")[-1].split(".")[:-1])
     
     print("Testing "+rom_name+" / "+core_name+"...")
 
@@ -165,6 +165,34 @@ def test_dir(rom_dir, core_path, retroarch_path, thumbnail_dir:str=None, start_b
     rv = {}
     for rom_path in roms:
         rv[rom_path] = test_pair(rom_path, core_path, retroarch_path, thumbnail_dir, start_btns, startup_time)
+    return rv
+
+import itertools
+def smart_multi_test(roms_src, cores_src, lock, retroarch_path=config.exe_path, thumbnail_dir:str=None, start_btns:tuple=("{ENTER}", "5", "1"), startup_time=2):
+    #Enumerate roms
+    all_roms = []
+    for i in roms_src:
+        if os.path.isdir(i):
+            all_roms += os.listdir(i)
+        else:
+            all_roms.append(i)
+
+    #Enumerate cores
+    all_cores = []
+    for i in cores_src:
+        if os.path.isdir(i):
+            all_cores += os.listdir(i)
+        else:
+            all_cores.append(i)
+
+    rv = {}
+    #Perform tests
+    #TODO update GUI
+    for rom in all_roms:
+        for core in all_cores:
+            rv[(rom,core)] = test_pair(rom, core, retroarch_path, thumbnail_dir, start_btns, startup_time)
+            lock.wait()
+
     return rv
 
 if __name__ == "__main__":
